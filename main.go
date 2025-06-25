@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"socialmedia-api/src/config"
 	"socialmedia-api/src/router"
 )
 
 func main() {
-	fmt.Println("Running server on port 5000!")
+	config.Load()
+	fmt.Printf("Running server on port %d!", config.Port)
 	r := router.Generate()
 
-	http.ListenAndServe(":5000", r)
+	http.ListenAndServe(fmt.Sprintf(":%d", config.Port), r)
 }
