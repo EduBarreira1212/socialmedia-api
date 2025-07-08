@@ -2,38 +2,42 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"socialmedia-api/src/database"
 	"socialmedia-api/src/models"
 	"socialmedia-api/src/repositories"
+	"socialmedia-api/src/responses"
 )
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	parameters, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		responses.Error(w, http.StatusUnprocessableEntity, err)
+		return
 	}
 
 	var user models.User
 	if err = json.Unmarshal(parameters, &user); err != nil {
-		log.Fatal(err)
+		responses.Error(w, http.StatusBadRequest, err)
+		return
 	}
 
 	db, err := database.Conect()
 	if err != nil {
-		log.Fatal(err)
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
 	}
+	defer db.Close()
 
 	repository := repositories.NewUserRepository(db)
-	userId, err := repository.Create(user)
+	user.ID, err = repository.Create(user)
 	if err != nil {
-		log.Fatal(err)
+		responses.Error(w, http.StatusInternalServerError, err)
+		return
 	}
 
-	w.Write([]byte(fmt.Sprintf("ID inserted: %d", userId)))
+	responses.JSON(w, http.StatusCreated, user)
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request) {
