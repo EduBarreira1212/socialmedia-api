@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"socialmedia-api/src/auth"
 	"socialmedia-api/src/database"
 	"socialmedia-api/src/models"
 	"socialmedia-api/src/repositories"
@@ -43,5 +44,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("You are logged in!"))
+	token, _ := auth.CreateToken(userSaved.ID)
+
+	w.Write([]byte(token))
 }
