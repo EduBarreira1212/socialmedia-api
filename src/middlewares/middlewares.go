@@ -1,9 +1,10 @@
 package middlewares
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"socialmedia-api/src/auth"
+	"socialmedia-api/src/responses"
 )
 
 func Logger(next http.HandlerFunc) http.HandlerFunc {
@@ -15,7 +16,10 @@ func Logger(next http.HandlerFunc) http.HandlerFunc {
 
 func Auth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Authenticating...")
+		if err := auth.ValidateToken(r); err != nil {
+			responses.Error(w, http.StatusUnauthorized, err)
+			return
+		}
 		next(w, r)
 	}
 }
