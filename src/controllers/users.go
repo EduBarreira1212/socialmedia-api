@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
+	"socialmedia-api/src/auth"
 	"socialmedia-api/src/database"
 	"socialmedia-api/src/models"
 	"socialmedia-api/src/repositories"
@@ -101,6 +103,17 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	ID, err := strconv.ParseUint(parameters["userID"], 10, 64)
 	if err != nil {
 		responses.Error(w, http.StatusBadRequest, err)
+		return
+	}
+
+	userIDInToken, err := auth.ExtractUserID(r)
+	if err != nil {
+		responses.Error(w, http.StatusUnauthorized, err)
+		return
+	}
+
+	if userIDInToken != ID {
+		responses.Error(w, http.StatusForbidden, errors.New("isn't possible to update a different user"))
 		return
 	}
 
