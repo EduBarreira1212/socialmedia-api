@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"socialmedia-api/src/config"
+	"strconv"
 	"strings"
 	"time"
 
@@ -32,6 +33,25 @@ func ValidateToken(r *http.Request) error {
 	}
 
 	return errors.New("invalid token")
+}
+
+func ExtractUserID(r *http.Request) (uint64, error) {
+	tokenString := extractToken(r)
+	token, err := jwt.Parse(tokenString, returnVerifyKey)
+	if err != nil {
+		return 0, err
+	}
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		userID, err := strconv.ParseUint(fmt.Sprintf("%.0f", claims["userId"]), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+
+		return userID, nil
+	}
+
+	return 0, errors.New("invalid token")
 }
 
 func extractToken(r *http.Request) string {
