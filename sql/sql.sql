@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS socialmedia;
 USE socialmedia;
 
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users(
     id int auto_increment primary key,
     name varchar(50) not null,
