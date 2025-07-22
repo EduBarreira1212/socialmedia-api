@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS socialmedia;
 USE socialmedia;
 
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS followers;
 
 CREATE TABLE users(
     id int auto_increment primary key,
@@ -10,4 +11,18 @@ CREATE TABLE users(
     email varchar(50) not null unique,
     password varchar(100) not null,
     createdAt timestamp default current_timestamp()
+) ENGINE=INNODB;
+
+CREATE TABLE followers(
+    user_id int not null,
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+    followers_id int not null,
+    FOREIGN KEY (followers_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+    primary key(user_id, followers_id)
 ) ENGINE=INNODB;
