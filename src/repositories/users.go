@@ -144,3 +144,19 @@ func (repository User) SearchByEmail(email string) (models.User, error) {
 
 	return user, nil
 }
+
+func (repository User) ToFollow(userID, followerID uint64) error {
+	statement, err := repository.db.Prepare(
+		"INSERT IGNORE INTO followers (user_id, follower_id) VALUES (?, ?)",
+	)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+
+	if _, err := statement.Exec(userID, followerID); err != nil {
+		return err
+	}
+
+	return nil
+}
