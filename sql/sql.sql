@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS socialmedia;
-USE socialmedia;
+CREATE DATABASE IF NOT EXISTS `socialmedia-db`;
+USE `socialmedia-db`;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS followers;
