@@ -48,4 +48,10 @@ var usersRoutes = []Route{
 		Function: controllers.StopFollowingUser,
 		Auth:     true,
 	},
+	{
+		URI:      "/users/{userID}/followers",
+		Method:   http.MethodGet,
+		Function: controllers.GetFollowers,
+		Auth:     true,
+	},
 }
