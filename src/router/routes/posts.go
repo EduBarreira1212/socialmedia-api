@@ -43,13 +43,13 @@ var postsRoutes = []Route{
 		Auth:     true,
 	},
 	{
-		URI:      "/posts/{postID}/curtir",
+		URI:      "/posts/{postID}/like",
 		Method:   http.MethodPost,
 		Function: controllers.LikePost,
 		Auth:     true,
 	},
 	{
-		URI:      "/posts/{postID}/descurtir",
+		URI:      "/posts/{postID}/unlike",
 		Method:   http.MethodPost,
 		Function: controllers.UnlikePost,
 		Auth:     true,
