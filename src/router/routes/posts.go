@@ -37,7 +37,7 @@ var postsRoutes = []Route{
 		Auth:     true,
 	},
 	{
-		URI:      "/usuarios/{userID}/posts",
+		URI:      "/users/{userID}/posts",
 		Method:   http.MethodGet,
 		Function: controllers.GetPostsByUserId,
 		Auth:     true,
