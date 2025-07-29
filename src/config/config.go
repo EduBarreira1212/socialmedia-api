@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	DCS  = ""
-	Port = 0
+	DCS       = ""
+	Port      = 0
+	SecretKey []byte
 )
 
 func Load() {
@@ -31,4 +32,6 @@ func Load() {
 		os.Getenv("MYSQL_PASSWORD"),
 		os.Getenv("MYSQL_DATABASE"),
 	)
+
+	SecretKey = []byte(os.Getenv("SECRET_KEY"))
 }
