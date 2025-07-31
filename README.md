@@ -124,6 +124,8 @@ docker-compose up --build
 
 ## ✅ To Do
 
+Config docker to run the api and not only the database
+
 Add Swagger documentation
 
 Implement tests
