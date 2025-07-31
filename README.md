@@ -1,4 +1,3 @@
-````md
 # 📦 Project Name
 
 Social media API
@@ -51,7 +50,7 @@ This project is the backend of a social media, it's possible to make CRUD operat
 ### Prerequisites
 
 - Go ≥ 1.21
-- Docker & Docker Compose (if using)
+- Docker & Docker Compose
 
 ### Clone the repository
 
@@ -59,7 +58,6 @@ This project is the backend of a social media, it's possible to make CRUD operat
 git clone https://github.com/EduBarreira1212/socialmedia-api.git
 cd socialmedia-api
 ```
-````
 
 ---
 
@@ -67,18 +65,26 @@ cd socialmedia-api
 
 ```
 socialmedia-api/
-├── cmd/                # Entry point (main.go)
-├── config/             # Config files and loading logic
-├── internal/           # Core business logic (handlers, services, models)
-│   ├── handler/
-│   ├── service/
-│   └── repository/
-├── docs/               # Swagger / API documentation
-├── test/               # Integration / unit tests
-├── .env                # Environment variables
-├── Dockerfile
-├── docker-compose.yml
-└── go.mod
+├── .mysql-data/            # MySQL volume data (used by Docker)
+├── sql/                    # SQL scripts or migrations
+├── src/                    # Source code
+│   ├── auth/               # Authentication logic (e.g., login, signup)
+│   ├── config/             # Configuration (e.g., env loading)
+│   ├── controllers/        # Route handlers / controllers
+│   ├── database/           # Database connection and setup
+│   ├── middlewares/        # HTTP middlewares (e.g., logging, auth)
+│   ├── models/             # Structs for DB models and DTOs
+│   ├── repositories/       # Data access layer
+│   ├── responses/          # Standard API response formatting
+│   ├── router/             # Routing setup (e.g., mux, echo, gin)
+│   └── security/           # Security utilities (e.g., hashing, JWT)
+├── .env                    # Environment variables
+├── .gitignore              # Git ignore rules
+├── docker-compose.yml      # Docker services definition
+├── go.mod                  # Go module definition
+├── go.sum                  # Go dependencies checksums
+├── main.go                 # Application entry point
+└── README.md               # Project documentation
 ```
 
 ---
@@ -91,12 +97,14 @@ Copy the `.env.example` to `.env` and update the values:
 cp .env.example .env
 ```
 
-| Variable       | Description                   |
-| -------------- | ----------------------------- |
-| `PORT`         | Port to run the server        |
-| `DATABASE_URL` | PostgreSQL connection string  |
-| `JWT_SECRET`   | Secret key for JWT            |
-| `REDIS_URL`    | Redis connection string (opt) |
+| Variable              | Description                                                 |
+| --------------------- | ----------------------------------------------------------- |
+| `MYSQL_ROOT_PASSWORD` | Root password for the MySQL server                          |
+| `MYSQL_DATABASE`      | Name of the default MySQL database                          |
+| `MYSQL_USER`          | MySQL user name                                             |
+| `MYSQL_PASSWORD`      | Password for the MySQL user                                 |
+| `PORT`                | Port for running the Go server                              |
+| `SECRET_KEY`          | Secret key used for signing JWT tokens or other secure data |
 
 ---
 
@@ -105,7 +113,7 @@ cp .env.example .env
 ### Run Locally
 
 ```bash
-go run cmd/main.go
+go run main.go
 ```
 
 ### Run with Docker
@@ -114,7 +122,13 @@ go run cmd/main.go
 docker-compose up --build
 ```
 
----
+## ✅ To Do
+
+Add Swagger documentation
+
+Implement tests
+
+Add rate limiting middleware
 
 ## 🧪 Testing
 
